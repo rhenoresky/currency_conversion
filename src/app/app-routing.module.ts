@@ -18,6 +18,11 @@ const web: string = localStorage.getItem('web') ?? 'admin';
     imports: [
         RouterModule.forRoot(
             [
+                {
+                    path: '',
+                    redirectTo: 'currency-conversion',
+                    pathMatch: 'full',
+                },
                 // {
                 //     path: 'dashboard',
                 //     component: AppMainComponent,

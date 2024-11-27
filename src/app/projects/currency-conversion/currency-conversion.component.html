@@ -17,6 +17,7 @@
                 mode="currency"
                 currency="USD"
                 locale="en-US"
+                [min]="0"
             >
             </p-inputNumber>
         </div>
@@ -29,9 +30,8 @@
                     [customOption]="dataCurrencies"
                     label="Select currency"
                     optLabel="lovLabel"
-                    valuesFind="code"
                     [value]="
-                        formConversion.get('currencyFirst').getRawValue().code
+                        formConversion.get('currencyFirst').getRawValue()?.code
                     "
                     (selected)="onSelectedCurrencyFirst($event)"
                 >
@@ -52,7 +52,7 @@
                     label="Select currency"
                     optLabel="lovLabel"
                     [value]="
-                        formConversion.get('currencySecond').getRawValue().code
+                        formConversion.get('currencySecond').getRawValue()?.code
                     "
                     (selected)="onSelectedCurrencySecond($event)"
                 >

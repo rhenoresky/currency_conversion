@@ -1,10 +1,4 @@
-import {
-    ChangeDetectorRef,
-    Component,
-    QueryList,
-    ViewChild,
-    ViewChildren,
-} from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { TableComponent } from '@core/shared-component/table/table.component';
 import { CurrencyConversionService } from './service/currency-conversion.service';
 import { MessageBoxService } from '@core/service/message-box.service';
@@ -36,8 +30,7 @@ export class CurrencyConversionComponent {
     constructor(
         private currencyService: CurrencyConversionService,
         private messageBoxService: MessageBoxService,
-        private formBuilder: FormBuilder,
-        private detectChange: ChangeDetectorRef
+        private formBuilder: FormBuilder
     ) {}
 
     ngOnInit() {
@@ -48,8 +41,8 @@ export class CurrencyConversionComponent {
     createFormConversion() {
         this.formConversion = this.formBuilder.group({
             amount: [0, Validators.required],
-            currencyFirst: [{}, Validators.required],
-            currencySecond: [{}, Validators.required],
+            currencyFirst: [undefined, Validators.required],
+            currencySecond: [undefined, Validators.required],
         });
     }
 
@@ -63,7 +56,11 @@ export class CurrencyConversionComponent {
     }
 
     onInputNumber(e) {
-        this.calculateCurrency();
+        if (this.formConversion.valid) {
+            this.calculateCurrency();
+        } else {
+            this.formConversion.markAllAsTouched();
+        }
     }
 
     swapCurrency() {
@@ -76,13 +73,21 @@ export class CurrencyConversionComponent {
                 this.formConversion.get('currencySecond').getRawValue()
             );
         this.formConversion.get('currencySecond').patchValue(currencyFirst);
-        this.calculateCurrency();
+        if (this.formConversion.valid) {
+            this.calculateCurrency();
+        } else {
+            this.formConversion.markAllAsTouched();
+        }
     }
 
     onClickConvert() {
-        this.calculateCurrency();
-        this.showResultConversion = true;
-        this.showButtonConvert = false;
+        if (this.formConversion.valid) {
+            this.calculateCurrency();
+            this.showResultConversion = true;
+            this.showButtonConvert = false;
+        } else {
+            this.formConversion.markAllAsTouched();
+        }
     }
 
     calculateCurrency() {
@@ -117,12 +122,20 @@ export class CurrencyConversionComponent {
 
     onSelectedCurrencyFirst(e) {
         this.formConversion.get('currencyFirst').patchValue(e);
-        this.calculateCurrency();
+        if (this.formConversion.valid) {
+            this.calculateCurrency();
+        } else {
+            this.formConversion.markAllAsTouched();
+        }
     }
 
     onSelectedCurrencySecond(e) {
         this.formConversion.get('currencySecond').patchValue(e);
-        this.calculateCurrency();
+        if (this.formConversion.valid) {
+            this.calculateCurrency();
+        } else {
+            this.formConversion.markAllAsTouched();
+        }
     }
 
     getCurrenciesFromApi() {

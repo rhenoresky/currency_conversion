@@ -1,0 +1,36 @@
+p-button {
+    border-radius: 0.5rem;
+}
+
+.glow {
+    -webkit-box-shadow: 0px 0px 20px 2px rgba(147, 197, 253, 0.4);
+    -moz-box-shadow: 0px 0px 20px 2px rgba(147, 197, 253, 0.4);
+    box-shadow: 0px 0px 20px 2px rgba(147, 197, 253, 0.4);
+}
+
+.icon-exchange {
+    content: url(../../../assets/icon/arrow-up-down.svg);
+}
+
+.converter-wrap {
+    gap: 2rem;
+}
+
+.country-wrap {
+    gap: 1.5rem;
+}
+
+@media screen and (min-width: 426px) {
+    .icon-exchange {
+        content: url(../../../assets/icon/arrow-left-right.svg);
+    }
+    .country-wrap {
+        gap: 0;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .converter-wrap {
+        gap: 0rem;
+    }
+}

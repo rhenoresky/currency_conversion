@@ -1,0 +1,112 @@
+<main class="flex flex-column" style="gap: 3rem">
+    <section
+        class="grid m-4 converter-wrap justify-content-between"
+        [formGroup]="formConversion"
+    >
+        <div class="col-12 lg:mb-6">
+            <h1 class="font-bold text-center m-0 lg:text-6xl">
+                Currency Converter
+            </h1>
+        </div>
+        <div class="col-12 lg:col-3 p-fluid p-0">
+            <p-inputNumber
+                (onInput)="onInputNumber($event)"
+                formControlName="amount"
+                ngDefaultControl
+                inputId="currency-us"
+                mode="currency"
+                currency="USD"
+                locale="en-US"
+            >
+            </p-inputNumber>
+        </div>
+        <div
+            class="col-12 grid lg:col-9 p-0 m-0 align-items-center country-wrap lg:pl-6"
+        >
+            <div class="col-12 p-fluid p-0 m-0 md:col-5">
+                <app-lov
+                    #LovComponent
+                    [customOption]="dataCurrencies"
+                    label="Select currency"
+                    optLabel="lovLabel"
+                    valuesFind="code"
+                    [value]="
+                        formConversion.get('currencyFirst').getRawValue().code
+                    "
+                    (selected)="onSelectedCurrencyFirst($event)"
+                >
+                </app-lov>
+            </div>
+            <div
+                class="col-12 flex justify-content-center align-items-center p-0 md:col-2"
+                style="height: fit-content"
+            >
+                <p-button (onClick)="swapCurrency()" class="glow">
+                    <span class="w-1rem p-0 m-0 icon-exchange"> </span>
+                </p-button>
+            </div>
+            <div class="col-12 p-fluid p-0 m-0 md:col-5">
+                <app-lov
+                    #LovComponent
+                    [customOption]="dataCurrencies"
+                    label="Select currency"
+                    optLabel="lovLabel"
+                    [value]="
+                        formConversion.get('currencySecond').getRawValue().code
+                    "
+                    (selected)="onSelectedCurrencySecond($event)"
+                >
+                </app-lov>
+            </div>
+        </div>
+        <div class="col-12 flex flex-column lg:mt-5 p-0 m-0">
+            <div *ngIf="showResultConversion">
+                <p class="font-bold lg:text-lg m-0">
+                    {{ resultConversionData?.beforeConversion }}
+                </p>
+                <p class="text-4xl lg:text-6xl font-bold m-0 mb-3">
+                    {{ resultConversionData?.resultConversion }}
+                </p>
+                <p class="m-0 lg:text-lg">
+                    {{ resultConversionData?.rateCurrencyFirst }}
+                </p>
+                <p class="m-0 lg:text-lg">
+                    {{ resultConversionData?.rateCurrencySecond }}
+                </p>
+            </div>
+
+            <div
+                class="col-12 md:col-3 lg:col-2 p-fluid glow p-0"
+                style="border-radius: 0.5rem; align-self: end"
+                *ngIf="showButtonConvert"
+            >
+                <p-button
+                    (onClick)="onClickConvert()"
+                    label="Convert"
+                ></p-button>
+            </div>
+        </div>
+    </section>
+
+    <section
+        style="background-color: #93c5fd"
+        class="mx-4 px-3 py-4 border-round glow"
+    >
+        <h1
+            style="color: #1c2127; letter-spacing: 0.05rem"
+            class="text-xl font-semibold"
+        >
+            Result in other currencies
+        </h1>
+        <app-table
+            #TableComponent
+            [isSelectable]="false"
+            [isStatus]="false"
+            [columMap]="columnMap"
+            [isKebab]="false"
+            [count]="dataCurrencies?.length"
+            [list]="dataCurrencies"
+            [isLazy]="false"
+        ></app-table>
+    </section>
+</main>

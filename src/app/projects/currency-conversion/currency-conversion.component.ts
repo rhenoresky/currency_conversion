@@ -183,11 +183,7 @@ export class CurrencyConversionComponent {
                             'dataCurrencies',
                             result
                         );
-                        this.dataCurrencies = result;
-                        const tempArray = this.lov.toArray();
-                        tempArray.forEach((temp) => {
-                            temp.list = this.dataCurrencies;
-                        });
+                        location.reload();
                     },
                     error: (err) => {
                         this.messageBoxService.showError('Error get rates');

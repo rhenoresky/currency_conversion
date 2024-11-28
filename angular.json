@@ -109,7 +109,8 @@
                             "node_modules/apexcharts/dist/apexcharts.min.js",
                             "node_modules/quill/dist/quill.js",
                             "src/assets/richtexteditor/rte.js",
-                            "src/assets/richtexteditor/plugins/all_plugins.js"
+                            "src/assets/richtexteditor/plugins/all_plugins.js",
+                            "node_modules/particles.js/particles.js"
                         ],
                         "styles": [
                             "src/styles.scss",

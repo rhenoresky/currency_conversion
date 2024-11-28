@@ -57,6 +57,7 @@
     "ngx-infinite-scroll": "^17.0.0",
     "ngx-skeleton-loader": "^8.1.0",
     "ngx-spinner": "^13.0.0",
+    "particles.js": "^2.0.0",
     "primeflex": "^3.1.0",
     "primeicons": "5.0.0",
     "primeng": "^16.0.2",

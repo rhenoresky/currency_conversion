@@ -4,6 +4,7 @@ import { CurrencyConversionService } from './service/currency-conversion.service
 import { MessageBoxService } from '@core/service/message-box.service';
 import { LovComponent } from '@core/shared-component/lov/lov.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CurrencyModel, ResultConversionModel } from './model/currency.model';
 
 @Component({
     selector: 'app-currency-conversion',
@@ -13,16 +14,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class CurrencyConversionComponent {
     @ViewChild('TableComponent') table: TableComponent;
     @ViewChildren('LovComponent') lov: QueryList<LovComponent>;
-    columnMap = [
+    columnMap: { label: string; key: string }[] = [
         { label: 'Code', key: 'code' },
         { label: 'Country', key: 'country' },
         { label: 'Rate', key: 'rate' },
         { label: 'Value', key: 'value' },
     ];
-    dataCurrencies: any[] = [];
+    dataCurrencies: CurrencyModel[] = [];
     showResultConversion: boolean = false;
     showButtonConvert: boolean = true;
-    resultConversionData: any;
+    resultConversionData: ResultConversionModel;
     formConversion: FormGroup;
     currencyFirstCode: string;
     currencySecondCode: string;
@@ -33,12 +34,12 @@ export class CurrencyConversionComponent {
         private formBuilder: FormBuilder
     ) {}
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.getLocalStorageCurrency();
         this.createFormConversion();
     }
 
-    createFormConversion() {
+    createFormConversion(): void {
         this.formConversion = this.formBuilder.group({
             amount: [0, Validators.required],
             currencyFirst: [undefined, Validators.required],
@@ -55,7 +56,7 @@ export class CurrencyConversionComponent {
         }
     }
 
-    onInputNumber(e) {
+    onInputNumber(e): void {
         if (this.formConversion.valid) {
             this.calculateCurrency();
         } else {
@@ -63,7 +64,7 @@ export class CurrencyConversionComponent {
         }
     }
 
-    swapCurrency() {
+    swapCurrency(): void {
         const currencyFirst = this.formConversion
             .get('currencyFirst')
             .getRawValue();
@@ -80,17 +81,18 @@ export class CurrencyConversionComponent {
         }
     }
 
-    onClickConvert() {
+    onClickConvert(): void {
         if (this.formConversion.valid) {
             this.calculateCurrency();
             this.showResultConversion = true;
             this.showButtonConvert = false;
         } else {
             this.formConversion.markAllAsTouched();
+            this.messageBoxService.showInfo('Form must be filled');
         }
     }
 
-    calculateCurrency() {
+    calculateCurrency(): void {
         const conversionData = this.formConversion.getRawValue();
         const beforeConversion = `${conversionData.amount.toLocaleString('en', {
             minimumFractionDigits: 2,
@@ -120,7 +122,7 @@ export class CurrencyConversionComponent {
         };
     }
 
-    onSelectedCurrencyFirst(e) {
+    onSelectedCurrencyFirst(e): void {
         this.formConversion.get('currencyFirst').patchValue(e);
         if (this.formConversion.valid) {
             this.calculateCurrency();
@@ -129,7 +131,7 @@ export class CurrencyConversionComponent {
         }
     }
 
-    onSelectedCurrencySecond(e) {
+    onSelectedCurrencySecond(e): void {
         this.formConversion.get('currencySecond').patchValue(e);
         if (this.formConversion.valid) {
             this.calculateCurrency();
@@ -138,7 +140,7 @@ export class CurrencyConversionComponent {
         }
     }
 
-    getCurrenciesFromApi() {
+    getCurrenciesFromApi(): void {
         this.currencyService.getCurrencies().subscribe({
             next: (res) => {
                 const result = [];
@@ -183,7 +185,7 @@ export class CurrencyConversionComponent {
                             'dataCurrencies',
                             result
                         );
-                        location.reload();
+                        this.dataCurrencies = result;
                     },
                     error: (err) => {
                         this.messageBoxService.showError('Error get rates');

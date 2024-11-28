@@ -20,17 +20,84 @@ p-button {
     gap: 1.5rem;
 }
 
-@media screen and (min-width: 426px) {
+#title {
+    animation: slide-in-top 2000ms;
+    animation-timing-function: linear;
+}
+
+p-inputNumber {
+    animation: slide-in-top 2000ms;
+    animation-timing-function: linear;
+}
+
+#lovFirst {
+    animation: slide-in-top 1500ms;
+    animation-timing-function: linear;
+}
+
+#btnSwap {
+    animation: slide-in-top 1000ms;
+    animation-timing-function: linear;
+}
+
+#lovSecond {
+    animation: slide-in-top 500ms;
+    animation-timing-function: linear;
+}
+
+#btnConvert {
+    animation: slide-in-right 2000ms;
+    animation-timing-function: linear;
+}
+
+app-table {
+    animation: fade-in 2000ms;
+    animation-timing-function: linear;
+}
+
+@media screen and (min-width: 576px) {
     .icon-exchange {
         content: url(../../../assets/icon/arrow-left-right.svg);
     }
+
     .country-wrap {
         gap: 0;
     }
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 768px) {
     .converter-wrap {
         gap: 0rem;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-top {
+    from {
+        opacity: 0;
+        transform: translateY(-800%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(200%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0%);
     }
 }

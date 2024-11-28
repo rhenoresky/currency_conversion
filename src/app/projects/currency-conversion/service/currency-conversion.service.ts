@@ -27,7 +27,7 @@ export class CurrencyConversionService {
         );
     }
 
-    setLocalStorageCurrency(key: string, value: any) {
+    setLocalStorageCurrency(key: string, value: any): void {
         localStorage.setItem(key, JSON.stringify(value));
     }
 }

@@ -13,7 +13,8 @@ import {
     selector: 'app-root',
     template: `
         <router-outlet></router-outlet>
-
+        <flash-message-error></flash-message-error>
+        <flash-message-success></flash-message-success>
         <p-toast key="info" [baseZIndex]="9999999" styleClass="mt-7"></p-toast>
     `,
 })

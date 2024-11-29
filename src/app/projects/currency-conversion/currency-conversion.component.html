@@ -33,6 +33,12 @@
                     optLabel="lovLabel"
                     (selected)="onSelectedCurrencyFirst($event)"
                     [value]="formConversion.get('currencyFirst').value?.code"
+                    [ngClass]="{
+                        'ng-invalid ng-dirty':
+                            (formConversion.get('currencyFirst')?.touched ||
+                                formConversion.get('currencyFirst')?.dirty) &&
+                            !formConversion.get('currencyFirst')?.valid
+                    }"
                 >
                 </app-lov>
             </div>
@@ -54,6 +60,12 @@
                     optLabel="lovLabel"
                     (selected)="onSelectedCurrencySecond($event)"
                     [value]="formConversion.get('currencySecond').value?.code"
+                    [ngClass]="{
+                        'ng-invalid ng-dirty':
+                            (formConversion.get('currencySecond')?.touched ||
+                                formConversion.get('currencySecond')?.dirty) &&
+                            !formConversion.get('currencySecond')?.valid
+                    }"
                 >
                 </app-lov>
             </div>

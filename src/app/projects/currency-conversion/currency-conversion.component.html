@@ -24,9 +24,13 @@
         <div
             class="col-12 grid md:col-9 p-0 m-0 align-items-center country-wrap md:pl-6"
         >
-            <div id="lovFirst" class="col-12 p-fluid p-0 m-0 sm:col-5" [ngClass]="{
-                'lovFirstAnimation' : dataCurrencies?.length > 0
-            }">
+            <div
+                id="lovFirst"
+                class="col-12 p-fluid p-0 m-0 sm:col-5"
+                [ngClass]="{
+                    lovFirstAnimation: dataCurrencies?.length > 0
+                }"
+            >
                 <app-lov
                     *ngIf="dataCurrencies?.length > 0"
                     #LovComponent
@@ -53,9 +57,13 @@
                     <span class="w-1rem p-0 m-0 icon-exchange"> </span>
                 </p-button>
             </div>
-            <div id="lovSecond" class="col-12 p-fluid p-0 m-0 sm:col-5" [ngClass]="{
-                'lovSecondAnimation' : dataCurrencies?.length > 0
-            }">
+            <div
+                id="lovSecond"
+                class="col-12 p-fluid p-0 m-0 sm:col-5"
+                [ngClass]="{
+                    lovSecondAnimation: dataCurrencies?.length > 0
+                }"
+            >
                 <app-lov
                     *ngIf="dataCurrencies?.length > 0"
                     #LovComponent
@@ -115,14 +123,14 @@
             Result in other currencies
         </h1>
         <app-table
-            *ngIf="dataCurrencies?.length > 0"
+            *ngIf="dataCurrenciesForTable?.length > 0"
             #TableComponent
             [isSelectable]="false"
             [isStatus]="false"
             [columMap]="columnMap"
             [isKebab]="false"
-            [count]="dataCurrencies?.length"
-            [list]="dataCurrencies"
+            [count]="dataCurrenciesForTable?.length"
+            [list]="dataCurrenciesForTable"
             [isLazy]="false"
         ></app-table>
     </section>

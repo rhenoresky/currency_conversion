@@ -24,6 +24,7 @@ export class CurrencyConversionComponent {
         { label: 'Value', key: 'value' },
     ];
     dataCurrencies: CurrencyModel[] = [];
+    dataCurrenciesForTable: CurrencyModel[] = [];
     showResultConversion: boolean = false;
     showButtonConvert: boolean = true;
     resultConversionData: ResultConversionModel;
@@ -110,6 +111,7 @@ export class CurrencyConversionComponent {
         const item = localStorage.getItem('dataCurrencies');
         if (item) {
             this.dataCurrencies = JSON.parse(item);
+            this.dataCurrenciesForTable = this.dataCurrencies;
         } else {
             this.getCurrenciesFromApi();
         }
@@ -124,15 +126,16 @@ export class CurrencyConversionComponent {
     }
 
     swapCurrency(): void {
-        const currencyFirst = this.formConversion
+        const dataCurrencyFirst = this.formConversion
             .get('currencyFirst')
             .getRawValue();
-        this.formConversion
-            .get('currencyFirst')
-            .patchValue(
-                this.formConversion.get('currencySecond').getRawValue()
-            );
-        this.formConversion.get('currencySecond').patchValue(currencyFirst);
+        const dataCurrencySecond = this.formConversion
+            .get('currencySecond')
+            .getRawValue();
+        console.log(dataCurrencyFirst);
+        console.log(dataCurrencySecond);
+        this.formConversion.get('currencyFirst').patchValue(dataCurrencySecond);
+        this.formConversion.get('currencySecond').patchValue(dataCurrencyFirst);
         if (this.formConversion.valid) {
             this.calculateCurrency();
         } else {
@@ -179,10 +182,24 @@ export class CurrencyConversionComponent {
             rateCurrencyFirst,
             rateCurrencySecond,
         };
+        this.dataCurrenciesForTable = this.dataCurrencies;
+
+        const updatedDataCurrencies = this.dataCurrenciesForTable.map(
+            (currency) => {
+                currency.rate =
+                    currency.rate / conversionData.currencyFirst.rate;
+                currency.value = currency.rate * conversionData.amount;
+
+                return currency;
+            }
+        );
+
+        this.dataCurrenciesForTable = updatedDataCurrencies;
     }
 
     onSelectedCurrencyFirst(e): void {
         this.formConversion.get('currencyFirst').patchValue(e);
+        console.log(e);
         if (this.formConversion.valid) {
             this.calculateCurrency();
         } else {
@@ -192,6 +209,7 @@ export class CurrencyConversionComponent {
 
     onSelectedCurrencySecond(e): void {
         this.formConversion.get('currencySecond').patchValue(e);
+        console.log(e);
         if (this.formConversion.valid) {
             this.calculateCurrency();
         } else {
@@ -234,7 +252,7 @@ export class CurrencyConversionComponent {
                                         code,
                                         name,
                                         symbol,
-                                        rate: Math.round(res.body.rates[key]),
+                                        rate: res.body.rates[key],
                                         value: res.body.rates[key],
                                     };
                                 }
@@ -245,6 +263,7 @@ export class CurrencyConversionComponent {
                             result
                         );
                         this.dataCurrencies = result;
+                        this.dataCurrenciesForTable = result;
                     },
                     error: (err) => {
                         this.messageBoxService.showError('Error get rates');
